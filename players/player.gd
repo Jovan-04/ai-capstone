@@ -1,18 +1,17 @@
 extends Node2D
+class_name Player
 
 enum Direction {UP, RIGHT, DOWN, LEFT}
 
-var tile_position: Vector2i = Vector2i(0, 0)
 var TILE_SIZE: int = 16
 
-func _ready() -> void:
-	self.position = tile_position * TILE_SIZE + Vector2i(8, 8)
-	
-	#while true:
-		#await get_tree().create_timer(1).timeout
-		#self.make_action()
+func get_initial_position() -> Vector2i:
+	return Vector2i(0, 0)
 
-func move(direction: Direction):
+func _ready() -> void:
+	self.position = get_initial_position() * TILE_SIZE + Vector2i(8, 8)
+
+func move(direction: Direction) -> void:
 	match direction:
 		Direction.UP:
 			self.position += Vector2(0, -1) * TILE_SIZE
@@ -23,8 +22,8 @@ func move(direction: Direction):
 		Direction.DOWN:
 			self.position += Vector2(0, 1) * TILE_SIZE
 
-func make_action():
+func make_action() -> void:
 	self.move(Direction.values()[randi() % Direction.size()])
 
-func _process(delta: float) -> void:
-	pass
+func attack(col: int, row: int) -> void:
+	print("make an attack!!!!!!!!")
