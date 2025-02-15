@@ -11,6 +11,7 @@ func get_initial_position() -> Vector2i:
 func _ready() -> void:
 	self.position = get_initial_position() * TILE_SIZE + Vector2i(8, 8)
 
+
 func move(direction: Direction) -> void:
 	match direction:
 		Direction.UP:
