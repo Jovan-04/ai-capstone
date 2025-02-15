@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://sducqwco0p74" path="res://assets/tilemap.png" id="1_tjumf"]
 [ext_resource type="PackedScene" uid="uid://b7t0olpu30ns" path="res://players/player.tscn" id="3_06ijj"]
 [ext_resource type="PackedScene" uid="uid://coabyoud03rs8" path="res://enemies/enemy.tscn" id="4_nrg4v"]
+[ext_resource type="PackedScene" uid="uid://dott8in2n6g7l" path="res://players/warrior.tscn" id="3_kiyet"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x7cnp"]
 texture = ExtResource("1_tjumf")
@@ -157,3 +158,6 @@ zoom = Vector2(3, 3)
 
 [node name="Enemy" parent="." instance=ExtResource("4_nrg4v")]
 position = Vector2(124, -6)
+[node name="Player2" parent="." instance=ExtResource("3_06ijj")]
+
+[node name="Player" parent="." instance=ExtResource("3_kiyet")]
