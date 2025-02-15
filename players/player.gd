@@ -8,9 +8,6 @@ var TILE_SIZE: int = 16
 func _ready() -> void:
 	self.position = tile_position * TILE_SIZE + Vector2i(8, 8)
 	
-	#while true:
-		#await get_tree().create_timer(1).timeout
-		#self.make_action()
 
 func move(direction: Direction):
 	match direction:
@@ -25,6 +22,3 @@ func move(direction: Direction):
 
 func make_action():
 	self.move(Direction.values()[randi() % Direction.size()])
-
-func _process(delta: float) -> void:
-	pass

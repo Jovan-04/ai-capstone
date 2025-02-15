@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://coabyoud03rs8"]
+[gd_scene load_steps=4 format=3 uid="uid://coabyoud03rs8"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_it3aq"]
+[ext_resource type="Texture2D" uid="uid://b281d2ihtuca4" path="res://assets/Cyclops.png" id="2_qvqt0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mkd7k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qvqt0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource("1_it3aq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_mkd7k")
