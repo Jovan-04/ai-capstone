@@ -7,7 +7,6 @@ extends Node2D
 var players: Array = []
 var enemies: Array = []
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	await get_tree().process_frame
 	players.append(player1)
@@ -16,13 +15,9 @@ func _ready() -> void:
 
 	while true:
 		for player in players:
-			player.make_action()
-			await get_tree().create_timer(1).timeout
+			await player.make_action()
+			await get_tree().create_timer(0.25).timeout
 		
 		for enemy in enemies:
-			enemy.make_action()
+			await enemy.make_action()
 			await get_tree().create_timer(0.5).timeout
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
