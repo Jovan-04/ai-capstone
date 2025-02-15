@@ -1,11 +1,11 @@
 extends Node2D
 
 enum Direction {UP, RIGHT, DOWN, LEFT}
-var tile_position: Vector2i = Vector2i(0, 0)
+var tile_position: Vector2i = Vector2i(-4, -4)
 var TILE_SIZE: int = 16
 var game
 func _ready() -> void:
-	self.position = tile_position * TILE_SIZE + Vector2i(3, 3)
+	self.position = tile_position * TILE_SIZE + Vector2i(8, 8)
 	#This will error if game is not in very specific spot in tree *TEMPORARY*
 	game = get_tree().get_root().get_child(0)
 	
