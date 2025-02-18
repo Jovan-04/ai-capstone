@@ -4,14 +4,21 @@ class_name Player
 enum Direction {UP, RIGHT, DOWN, LEFT}
 var TILE_SIZE: int = 16
 var played_by_real_player: bool = true
+var health  = 10
+
 
 func get_initial_position() -> Vector2i:
 	return Vector2i(0, 0)
+
+func get_hurt(damage :int) -> void:
+	health -= damage
 
 
 func _ready() -> void:
 	self.position = get_initial_position() * TILE_SIZE + Vector2i(8, 8)
 
+func get_current_tile():
+	return position / TILE_SIZE - Vector2(.5,.5)
 
 func move(direction: Direction) -> void:
 	match direction:

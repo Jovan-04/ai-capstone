@@ -152,40 +152,24 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAA
 tile_set = SubResource("TileSet_yfmwn")
 
 [node name="Player1 Health" type="Label" parent="TileMapLayer"]
-offset_left = -190.0
-offset_top = -100.0
-offset_right = -150.0
-offset_bottom = 1262.0
-scale = Vector2(0.01, 0.01)
-theme_override_constants/shadow_offset_x = 1000
-theme_override_constants/shadow_offset_y = 100
-theme_override_constants/outline_size = 1000
-theme_override_constants/shadow_outline_size = 1000
-theme_override_font_sizes/font_size = 1000
+offset_left = -141.0
+offset_top = -93.0
+offset_right = -101.0
+offset_bottom = -70.0
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/font_size = 100
 
 [node name="Player2 Health" type="Label" parent="TileMapLayer"]
-offset_left = -190.0
-offset_top = -80.0
-offset_right = -150.0
-offset_bottom = 1282.0
-scale = Vector2(0.01, 0.01)
-theme_override_constants/shadow_offset_x = 1000
-theme_override_constants/shadow_offset_y = 100
-theme_override_constants/outline_size = 1000
-theme_override_constants/shadow_outline_size = 1000
-theme_override_font_sizes/font_size = 1000
+offset_left = -142.0
+offset_top = -54.0
+offset_right = -102.0
+offset_bottom = -31.0
 
 [node name="Enemy Health" type="Label" parent="TileMapLayer"]
-offset_left = -190.0
-offset_top = -60.0
-offset_right = -150.0
-offset_bottom = 1302.0
-scale = Vector2(0.01, 0.01)
-theme_override_constants/shadow_offset_x = 1000
-theme_override_constants/shadow_offset_y = 100
-theme_override_constants/outline_size = 1000
-theme_override_constants/shadow_outline_size = 1000
-theme_override_font_sizes/font_size = 1000
+offset_left = -139.0
+offset_top = 1.0
+offset_right = -99.0
+offset_bottom = 24.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
