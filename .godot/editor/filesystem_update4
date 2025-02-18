@@ -1,6 +1,0 @@
-res://players/player.tscn
-res://enemies/enemy.gd
-res://enemies/enemy.tscn
-res://game.tscn
-res://players/player.gd
-res://turn-controller.gd
