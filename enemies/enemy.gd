@@ -73,6 +73,7 @@ func attack() -> void:
 		var diff = current_player.get_current_tile() - get_current_tile()
 		if abs(diff.x) + abs(diff.y) == 1:
 			current_player.get_hurt(power)
+			break
 
 func get_hurt(damage :int) -> void:
 	health -= damage
