@@ -27,11 +27,9 @@ func make_action():
 		var enemy_tile_vector = position / TILE_SIZE
 		var dist = abs(player_tile_vector - enemy_tile_vector)
 		dist = Vector2(round(dist.x),round(dist.y))
-		print(dist)
 
 		var direction
 		if dist.x + dist.y > 1:
-			print("Move")
 			if dist.x > dist.y:
 				if player_tile_vector.x - enemy_tile_vector.x > 0:
 					direction = Direction.RIGHT
@@ -76,8 +74,8 @@ func attack() -> void:
 		if abs(diff.x) + abs(diff.y) == 1:
 			current_player.get_hurt(power)
 
-func check_attack_radius():
-	pass
+func get_hurt(damage :int) -> void:
+	health -= damage
 
 
 

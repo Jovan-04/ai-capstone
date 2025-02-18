@@ -20,14 +20,19 @@ func _ready() -> void:
 	players.append(player2)
 
 	while true:
-		player1_health.text = "Player1 Health:" + str(player1.health)
-		player2_health.text = "Player2 Health:" + str(player2.health)
-		enemy_health.text = "Enemy Health:" + str(enemy1.health)
 		
 		for player in players:
 			await player.make_action()
+			update_labels()
 			await get_tree().create_timer(0.25).timeout
 		
 		for enemy in enemies:
 			await enemy.make_action()
+			update_labels()
 			await get_tree().create_timer(0.5).timeout
+		
+
+func update_labels():
+	player1_health.text = "Player1 Health:" + str(player1.health)
+	player2_health.text = "Player2 Health:" + str(player2.health)
+	enemy_health.text   = "Enemy Health:"   + str(enemy1.health)
