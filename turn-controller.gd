@@ -50,14 +50,17 @@ func _ready() -> void:
 		
 
 func update_labels():
-	paladin_health_bar.value = paladin.paladin_cur_health
-	paladin_health_bar.max_value = paladin.paladin_max_health
+	if paladin:
+		paladin_health_bar.value = paladin.paladin_cur_health
+		paladin_health_bar.max_value = paladin.paladin_max_health
 	
-	archer_health_bar.value = archer.archer_cur_health
-	archer_health_bar.max_value = archer.archer_max_health
+	if archer:
+		archer_health_bar.value = archer.archer_cur_health
+		archer_health_bar.max_value = archer.archer_max_health
 	
-	assassin_health_bar.value = assassin.assassin_cur_health
-	assassin_health_bar.max_value = assassin.assassin_max_health
+	if assassin:
+		assassin_health_bar.value = assassin.assassin_cur_health
+		assassin_health_bar.max_value = assassin.assassin_max_health
 	
 	for enemy in enemies:
 		enemy.get_child(1).get_child(0).value = enemy.enemy_cur_health

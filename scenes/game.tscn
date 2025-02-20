@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://dryqtttivqsi4"]
+[gd_scene load_steps=10 format=4 uid="uid://dxakurbal1e1t"]
 
 [ext_resource type="Script" path="res://turn-controller.gd" id="1_l1qfq"]
 [ext_resource type="Texture2D" uid="uid://sducqwco0p74" path="res://assets/tilemap.png" id="2_8s7qw"]
@@ -178,6 +178,7 @@ zoom = Vector2(3, 3)
 [node name="Paladin" parent="." instance=ExtResource("3_2j37i")]
 
 [node name="HealthBar" type="Control" parent="Paladin"]
+z_index = 2
 layout_mode = 3
 anchors_preset = 0
 
@@ -194,6 +195,7 @@ texture_progress = ExtResource("5_6cd8x")
 [node name="Archer" parent="." instance=ExtResource("6_fqctb")]
 
 [node name="HealthBar" type="Control" parent="Archer"]
+z_index = 2
 layout_mode = 3
 anchors_preset = 0
 
@@ -210,6 +212,7 @@ texture_progress = ExtResource("5_6cd8x")
 [node name="Assassin" parent="." instance=ExtResource("7_5aerb")]
 
 [node name="HealthBar" type="Control" parent="Assassin"]
+z_index = 2
 layout_mode = 3
 anchors_preset = 0
 

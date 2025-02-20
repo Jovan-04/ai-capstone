@@ -23,6 +23,7 @@ script = ExtResource("1_ougpt")
 sprite_frames = SubResource("SpriteFrames_chvuc")
 
 [node name="HealthBar" type="Control" parent="."]
+z_index = 2
 layout_mode = 3
 anchors_preset = 0
 
