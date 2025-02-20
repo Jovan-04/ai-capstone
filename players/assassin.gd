@@ -9,7 +9,7 @@ var assassin_power = 2
 
 
 func get_initial_position() -> Vector2i:
-	return Vector2i(-2, 5)
+	return Vector2i(1, 0)
 
 func get_hurt(damage :int) -> void:
 	assassin_cur_health = max(assassin_cur_health - damage, 0)
