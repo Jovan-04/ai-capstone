@@ -4,16 +4,15 @@ enum Direction {UP, RIGHT, DOWN, LEFT}
 var tile_position: Vector2i = Vector2i(-4, -4)
 var TILE_SIZE: int = 16
 var game
-var health = 10
+var enemy_max_health = 10
+var enemy_cur_health = enemy_max_health
 var power = 1
+var alive = true
+
 func _ready() -> void:
-	self.position = tile_position * TILE_SIZE + Vector2i(8, 8)
 	#This will error if game is not in very specific spot in tree *TEMPORARY*
 	game = get_tree().get_root().get_child(0)
 	
-	
-
-
 func make_action():
 	var player
 	var smallest = 100000000
@@ -29,17 +28,36 @@ func make_action():
 		dist = Vector2(round(dist.x),round(dist.y))
 
 		var direction
+		
+		
 		if dist.x + dist.y > 1:
 			if dist.x > dist.y:
 				if player_tile_vector.x - enemy_tile_vector.x > 0:
 					direction = Direction.RIGHT
+					var test_tile = get_current_tile() + Vector2(1,0)
+					for enemy in game.enemies:
+						if enemy.get_current_tile() == test_tile:
+							return
 				else:
 					direction = Direction.LEFT
+					var test_tile = get_current_tile() + Vector2(-1,0)
+					for enemy in game.enemies:
+						if enemy.get_current_tile() == test_tile:
+							return
+					
 			else:
 				if player_tile_vector.y - enemy_tile_vector.y > 0:
 					direction = Direction.DOWN
+					var test_tile = get_current_tile() + Vector2(0,1)
+					for enemy in game.enemies:
+						if enemy.get_current_tile() == test_tile:
+							return
 				else:
 					direction = Direction.UP
+					var test_tile = get_current_tile() + Vector2(0,-1)
+					for enemy in game.enemies:
+						if enemy.get_current_tile() == test_tile:
+							return
 			self.move(direction)
 		else:
 			
@@ -76,7 +94,9 @@ func attack() -> void:
 			break
 
 func get_hurt(damage :int) -> void:
-	health -= damage
+	enemy_cur_health = max(enemy_cur_health - damage, 0)
+	if enemy_cur_health == 0:
+		alive = false
 
 
 
