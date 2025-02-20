@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://6nf11euaafqf"]
+
+[ext_resource type="PackedScene" uid="uid://b7t0olpu30ns" path="res://players/player.tscn" id="1_d1onq"]
+[ext_resource type="Script" path="res://players/archer.gd" id="2_7mbti"]
+[ext_resource type="Texture2D" uid="uid://sducqwco0p74" path="res://assets/tilemap.png" id="3_fuafr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqapx"]
+atlas = ExtResource("3_fuafr")
+region = Rect2(0, 112, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vut2x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqapx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Player" instance=ExtResource("1_d1onq")]
+script = ExtResource("2_7mbti")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_vut2x")

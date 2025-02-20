@@ -1,11 +1,12 @@
 extends Node2D
 @onready var tilemap = $TileMapLayer
 
-@onready var player1 = $Player
 @onready var enemy1 = $Enemy
-@onready var player2 = $Player2
-@onready var player1_health: Label = $"TileMapLayer/Player1 Health"
-@onready var player2_health: Label = $"TileMapLayer/Player2 Health"
+@onready var paladin = $Paladin
+@onready var archer = $Archer
+@onready var assassin = $Assassin
+@onready var paladin_health: Label = $"TileMapLayer/Paladin Health"
+@onready var archer_health: Label = $"TileMapLayer/Archer Health"
 @onready var enemy_health: Label = $"TileMapLayer/Enemy Health"
 
 
@@ -13,11 +14,12 @@ var players: Array = []
 var enemies: Array = []
 
 func _ready() -> void:
-	
+	update_labels()
 	await get_tree().process_frame
-	players.append(player1)
 	enemies.append(enemy1)
-	players.append(player2)
+	players.append(paladin)
+	players.append(archer)
+	players.append(assassin)
 
 	while true:
 		
@@ -33,6 +35,6 @@ func _ready() -> void:
 		
 
 func update_labels():
-	player1_health.text = "Player1 Health:" + str(player1.health)
-	player2_health.text = "Player2 Health:" + str(player2.health)
+	archer_health.text = "Archer Health:" + str(archer.health)
+	paladin_health.text = "Paladin Health:" + str(paladin.health)
 	enemy_health.text   = "Enemy Health:"   + str(enemy1.health)
