@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd8lusdcm7ku3"]
+
+[ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_87ilp"]
+[ext_resource type="Theme" uid="uid://bxuuubkjaabjg" path="res://themes/main_menu_button.tres" id="1_bsfds"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_87ilp")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.031396, 0.0473805, 0.10974, 1)
+
+[node name="PlayButton" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 479.0
+offset_top = 264.0
+offset_right = 634.0
+offset_bottom = 334.5
+
+[node name="Button" type="Button" parent="PlayButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 3061.0
+offset_bottom = 1371.0
+scale = Vector2(0.05, 0.05)
+theme = ExtResource("1_bsfds")
+text = "Play"
+
+[node name="Quit" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 358.0
+offset_right = 635.0
+offset_bottom = 428.5
+
+[node name="Button" type="Button" parent="Quit"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 3061.0
+offset_bottom = 1371.0
+scale = Vector2(0.05, 0.05)
+theme = ExtResource("1_bsfds")
+text = "Quit"

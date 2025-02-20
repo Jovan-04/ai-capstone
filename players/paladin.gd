@@ -1,21 +1,17 @@
 extends Player
 
-var assassin_max_health = 10
-var assassin_cur_health = assassin_max_health
+var paladin_max_health = 20
+var paladin_cur_health = paladin_max_health
 
-var assassin_power = 2
-
-
-
+var paladin_power  = 1
 
 func get_initial_position() -> Vector2i:
-	return Vector2i(1, 0)
-
+	return Vector2i(0, 0)
+	
 func get_hurt(damage :int) -> void:
-	assassin_cur_health = max(assassin_cur_health - damage, 0)
-	if assassin_cur_health == 0:
+	paladin_cur_health = max(paladin_cur_health - damage, 0)
+	if paladin_cur_health == 0:
 		alive = false
-
 
 func attack(direction : Direction) -> void:
 	var attack_tile
@@ -30,6 +26,4 @@ func attack(direction : Direction) -> void:
 			attack_tile = get_current_tile() + Vector2(0,1)
 	for enemy in game.enemies:
 		if enemy.get_current_tile() == attack_tile:
-			enemy.get_hurt(assassin_power)
-
-	
+			enemy.get_hurt(paladin_power)
