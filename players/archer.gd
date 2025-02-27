@@ -6,7 +6,7 @@ var archer_power = 1
 @onready var tile_map: TileMapLayer = $"../TileMapLayer"
 
 func get_initial_position() -> Vector2i:
-	return Vector2i(-1, 0)
+	return Vector2i(2, 0)
 
 func get_hurt(damage :int) -> void:
 	archer_cur_health = max(archer_cur_health - damage, 0)

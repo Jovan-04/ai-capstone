@@ -40,7 +40,6 @@ func _ready() -> void:
 			update_labels()
 			
 			await get_tree().create_timer(0.25).timeout
-			
 		
 		for enemy in enemies:
 			await enemy.make_action()
@@ -48,6 +47,25 @@ func _ready() -> void:
 			update_labels()
 			await get_tree().create_timer(0.5).timeout
 		
+		print_grid()
+
+func print_grid():
+	var grid: Array = []
+	for i in range(12):
+		var array = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+		grid.push_back(array)
+	
+	for player in players:
+		var pos = player.get_current_tile()
+		grid[pos.y][pos.x] = player.name.left(1)
+	
+	for enemy in enemies:
+		var pos = enemy.get_current_tile()
+		grid[pos.y][pos.x] = enemy.name.left(1)
+	
+	print("----------------------------------------------------------")
+	for row in grid:
+		print(row)
 
 func update_labels():
 	if paladin:
@@ -65,8 +83,6 @@ func update_labels():
 	for enemy in enemies:
 		enemy.get_child(1).get_child(0).value = enemy.enemy_cur_health
 		enemy.get_child(1).get_child(0).max_value = enemy.enemy_max_health
-		
-	
 
 func check_for_deaths():
 	var i = 0
@@ -86,14 +102,11 @@ func check_for_deaths():
 			curr_enemy.queue_free()
 		else:
 			i += 1 
-	
-	
-
 
 func spawn_enemy():
 	
-	var rand_x = randi_range(-9,8)
-	var rand_y = randi_range(5,-6)
+	var rand_x = randi_range(0, 15)
+	var rand_y = randi_range(0, 11)
 	var rand_tile = Vector2(rand_x, rand_y)
 	
 	for enemy in enemies:
@@ -108,5 +121,3 @@ func spawn_enemy():
 	curr_enemy.name = "Enemy" + str(len(enemies))
 	add_child(curr_enemy)
 	update_labels()
-	
-	

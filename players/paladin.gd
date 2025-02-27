@@ -6,7 +6,7 @@ var paladin_cur_health = paladin_max_health
 var paladin_power  = 1
 
 func get_initial_position() -> Vector2i:
-	return Vector2i(0, 0)
+	return Vector2i(5, 4)
 	
 func get_hurt(damage :int) -> void:
 	paladin_cur_health = max(paladin_cur_health - damage, 0)
