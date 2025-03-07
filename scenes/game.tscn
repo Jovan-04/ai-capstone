@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=4 uid="uid://dxakurbal1e1t"]
 
-[ext_resource type="Script" path="res://turn-controller.gd" id="1_l1qfq"]
+[ext_resource type="Script" path="res://utils/turn-controller.gd" id="1_l1qfq"]
 [ext_resource type="Texture2D" uid="uid://sducqwco0p74" path="res://assets/tilemap.png" id="2_8s7qw"]
-[ext_resource type="PackedScene" uid="uid://dott8in2n6g7l" path="res://players/warrior.tscn" id="3_2j37i"]
+[ext_resource type="PackedScene" uid="uid://dott8in2n6g7l" path="res://players/paladin.tscn" id="3_2j37i"]
 [ext_resource type="Texture2D" uid="uid://b08h4mqvwungd" path="res://assets/BackgroundHealthBar.png" id="4_y24pg"]
 [ext_resource type="Texture2D" uid="uid://o3ey4sgs155u" path="res://assets/FrontHealthBar.png" id="5_6cd8x"]
-[ext_resource type="PackedScene" uid="uid://6nf11euaafqf" path="res://players/archer.tscn" id="6_fqctb"]
+[ext_resource type="PackedScene" uid="uid://6nf11euaafqf" path="res://players/wizard.tscn" id="6_fqctb"]
 [ext_resource type="PackedScene" uid="uid://54okarba4i2m" path="res://players/assassin.tscn" id="7_5aerb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x7cnp"]
@@ -195,15 +195,15 @@ scale = Vector2(0.009, 0.003)
 texture_under = ExtResource("4_y24pg")
 texture_progress = ExtResource("5_6cd8x")
 
-[node name="Archer" parent="." instance=ExtResource("6_fqctb")]
+[node name="Wizard" parent="." instance=ExtResource("6_fqctb")]
 position = Vector2(-271, -182)
 
-[node name="HealthBar" type="Control" parent="Archer"]
+[node name="HealthBar" type="Control" parent="Wizard"]
 z_index = 2
 layout_mode = 3
 anchors_preset = 0
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Archer/HealthBar"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Wizard/HealthBar"]
 layout_mode = 0
 offset_left = -7.0
 offset_top = -11.0
