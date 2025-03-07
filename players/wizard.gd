@@ -5,10 +5,11 @@ extends Player
 func get_initial_position() -> Vector2i:
 	return Vector2i(2, 0)
 
-func make_action() -> void:
+func make_action() -> float:
 	animated_sprite.modulate = Color(0, 1.2, 0)
 	await get_player_input()
 	animated_sprite.modulate = Color(1, 1, 1)
+	return 1.0
 
 func get_player_input():
 	var is_attack = false

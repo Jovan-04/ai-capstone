@@ -6,3 +6,7 @@ func _ready() -> void:
 
 func get_initial_position() -> Vector2i:
 	return Vector2i(3, 3)
+
+func make_action() -> float:
+	await super.make_action()
+	return 0.5

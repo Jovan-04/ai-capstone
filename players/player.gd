@@ -12,7 +12,7 @@ var max_health: float
 var health: float
 var defense: float
 var attack_strength: float
-var timer_overflow: float
+var extra_time_spent: float
 var alive: bool
 var game
 
@@ -36,7 +36,7 @@ func _ready() -> void:
 	self.health = self.max_health
 	self.defense = 0.0 # percentage of damage negated
 	self.attack_strength = 1.0
-	self.timer_overflow = 0.0
+	self.extra_time_spent = 0.0
 	self.alive = true
 	self.game = get_tree().get_root().get_child(0)
 	
@@ -60,7 +60,7 @@ func move(direction: Direction) -> void:
 		Direction.DOWN:
 			self.position += Vector2(0, 1) * TILE_SIZE
 
-func make_action() -> void:
+func make_action() -> float:
 	animated_sprite.modulate = Color(0, 1.2, 0)
 	var move: Direction
 	
@@ -72,6 +72,8 @@ func make_action() -> void:
 		self.attack(move)
 	else:
 		self.move(move)
+	
+	return 1.0
 
 
 func get_player_input() -> Direction:

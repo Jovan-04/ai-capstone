@@ -11,7 +11,7 @@ var wave_number: int = 1
 var players: Array[Player] = []
 var enemies: Array = []
 
-# change this lol
+# TODO: change this lol
 const ENEMY = preload("res://enemies/enemy.tscn")
 
 func _ready() -> void:
@@ -30,14 +30,13 @@ func _ready() -> void:
 			wave_number += 1
 			
 		for player in players:
-			#Causes Assassin to get an extra turn
-			if player.name == "Assassin":
-				await player.make_action()
+			var time_left: float = 1.0 - player.extra_time_spent
+			while time_left > 0.0:
+				var time_spent = await player.make_action()
+				time_left -= time_spent
 				check_for_deaths()
 				update_labels()
-			await player.make_action()
-			check_for_deaths()
-			update_labels()
+			player.extra_time_spent = time_left * -1 # we over-used time, so time_left is now negative; we need to make it positive so we can subtract it properly next turn
 			
 			await get_tree().create_timer(0.25).timeout
 		
