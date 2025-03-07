@@ -36,7 +36,10 @@ offset_bottom = 40.0
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="HealthBar"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -7.0
+offset_top = -11.0
+offset_right = 1529.0
+offset_bottom = 853.0
+scale = Vector2(0.009, 0.003)
 texture_under = ExtResource("3_1ywes")
 texture_progress = ExtResource("4_7fybv")
