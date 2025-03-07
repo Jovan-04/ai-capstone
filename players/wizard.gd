@@ -41,7 +41,8 @@ func get_player_input():
 		# Handle attack mode input
 		elif is_attack and Input.is_action_just_pressed("Click"):
 			var mouse_pos = get_global_mouse_position()
-			var tile_pos = tile_map.local_to_map(tile_map.to_local(mouse_pos))			
+			var tile_pos = tile_map.local_to_map(tile_map.to_local(mouse_pos))
+			tile_pos += Vector2i(9, 6)
 			for enemy in game.enemies:
 				if enemy.get_current_tile() == Vector2(tile_pos):
 					enemy.get_hurt(self.attack_strength)
