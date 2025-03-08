@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7t0olpu30ns"]
+[gd_scene load_steps=7 format=3 uid="uid://b7t0olpu30ns"]
 
 [ext_resource type="Script" path="res://players/player.gd" id="1_gvph2"]
 [ext_resource type="Texture2D" uid="uid://sducqwco0p74" path="res://assets/tilemap.png" id="1_m8s0d"]
+[ext_resource type="Texture2D" uid="uid://b08h4mqvwungd" path="res://assets/BackgroundHealthBar.png" id="3_1ywes"]
+[ext_resource type="Texture2D" uid="uid://o3ey4sgs155u" path="res://assets/FrontHealthBar.png" id="4_7fybv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_07f05"]
 atlas = ExtResource("1_m8s0d")
@@ -24,3 +26,20 @@ script = ExtResource("1_gvph2")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ca82i")
 autoplay = "default"
+
+[node name="HealthBar" type="Control" parent="."]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HealthBar"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = -11.0
+offset_right = 1529.0
+offset_bottom = 853.0
+scale = Vector2(0.009, 0.003)
+texture_under = ExtResource("3_1ywes")
+texture_progress = ExtResource("4_7fybv")
