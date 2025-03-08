@@ -21,58 +21,16 @@ func _ready() -> void:
 
 
 func make_action():
-	var player
-	var smallest = 100000000
+	var player: Player
+	var smallest: int = 100000000
+	
 	for current_player in game.players:
 		var diff = abs(current_player.position - self.position)
 		if diff.x + diff.y < smallest:
 			smallest = diff.x + diff.y
 			player = current_player
-	if player:
-		var player_tile_vector = player.position / TILE_SIZE
-		var enemy_tile_vector = position / TILE_SIZE
-		var dist = abs(player_tile_vector - enemy_tile_vector)
-		dist = Vector2i(round(dist.x),round(dist.y))
-
-		var direction
-		
-		
-		if dist.x + dist.y > 1:
-			if dist.x > dist.y:
-				if player_tile_vector.x - enemy_tile_vector.x > 0:
-					direction = Direction.RIGHT
-					var test_tile = get_current_tile() + Vector2i(1,0)
-					for enemy in game.enemies:
-						if enemy.get_current_tile() == test_tile:
-							return
-				else:
-					direction = Direction.LEFT
-					var test_tile = get_current_tile() + Vector2i(-1,0)
-					for enemy in game.enemies:
-						if enemy.get_current_tile() == test_tile:
-							return
-					
-			else:
-				if player_tile_vector.y - enemy_tile_vector.y > 0:
-					direction = Direction.DOWN
-					var test_tile = get_current_tile() + Vector2i(0,1)
-					for enemy in game.enemies:
-						if enemy.get_current_tile() == test_tile:
-							return
-				else:
-					direction = Direction.UP
-					var test_tile = get_current_tile() + Vector2i(0,-1)
-					for enemy in game.enemies:
-						if enemy.get_current_tile() == test_tile:
-							return
-			self.move(direction)
-		else:
-			
-			attack()
-					
-			
-	else:
-		#No player found on board
+	
+	if not player:
 		var random_index = randi_range(0,3)
 		var dir
 		match random_index:
@@ -81,6 +39,34 @@ func make_action():
 			2: dir = Direction.DOWN
 			3: dir = Direction.LEFT
 		self.move(dir)
+		return
+	
+	var dist: int = Utils.travel_distance_between(player.get_current_tile(), self.get_current_tile())
+	if dist <= 1: # within attack range, attack
+		self.attack()
+		return
+	
+	# too far away, we move
+	var direction: Direction
+	var delta: Vector2i = player.get_current_tile() - self.get_current_tile()
+	
+	if abs(delta.x) < abs(delta.y):
+		# move vertically
+		match delta.y < 0:
+			true: direction = Direction.UP
+			false: direction = Direction.DOWN
+	else:
+		# move horizontally
+		match delta.x < 0:
+			true: direction = Direction.LEFT
+			false: direction = Direction.RIGHT
+	
+	# if another enemy is in the way, just stand still
+	for enemy in game.enemies:
+		if enemy.get_current_tile() == self.get_current_tile() + Utils.DIRECTION_OFFSETS[direction]:
+			return
+	
+	self.move(direction)
 
 
 func move(direction: Direction) -> void:
