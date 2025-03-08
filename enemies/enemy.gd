@@ -25,7 +25,7 @@ func make_action():
 		var player_tile_vector = player.position / TILE_SIZE
 		var enemy_tile_vector = position / TILE_SIZE
 		var dist = abs(player_tile_vector - enemy_tile_vector)
-		dist = Vector2(round(dist.x),round(dist.y))
+		dist = Vector2i(round(dist.x),round(dist.y))
 
 		var direction
 		
@@ -34,13 +34,13 @@ func make_action():
 			if dist.x > dist.y:
 				if player_tile_vector.x - enemy_tile_vector.x > 0:
 					direction = Direction.RIGHT
-					var test_tile = get_current_tile() + Vector2(1,0)
+					var test_tile = get_current_tile() + Vector2i(1,0)
 					for enemy in game.enemies:
 						if enemy.get_current_tile() == test_tile:
 							return
 				else:
 					direction = Direction.LEFT
-					var test_tile = get_current_tile() + Vector2(-1,0)
+					var test_tile = get_current_tile() + Vector2i(-1,0)
 					for enemy in game.enemies:
 						if enemy.get_current_tile() == test_tile:
 							return
@@ -48,13 +48,13 @@ func make_action():
 			else:
 				if player_tile_vector.y - enemy_tile_vector.y > 0:
 					direction = Direction.DOWN
-					var test_tile = get_current_tile() + Vector2(0,1)
+					var test_tile = get_current_tile() + Vector2i(0,1)
 					for enemy in game.enemies:
 						if enemy.get_current_tile() == test_tile:
 							return
 				else:
 					direction = Direction.UP
-					var test_tile = get_current_tile() + Vector2(0,-1)
+					var test_tile = get_current_tile() + Vector2i(0,-1)
 					for enemy in game.enemies:
 						if enemy.get_current_tile() == test_tile:
 							return
@@ -101,4 +101,4 @@ func get_hurt(damage :int) -> void:
 
 
 func get_current_tile():
-	return position / TILE_SIZE - Vector2(.5,.5)
+	return Vector2i(position / TILE_SIZE - Vector2(.5,.5))

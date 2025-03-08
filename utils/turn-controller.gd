@@ -70,7 +70,6 @@ func print_grid() -> void:
 func check_for_deaths() -> void:
 	for i in range(len(players)-1, -1, -1):
 		var curr_player: Player = players[i]
-		print(curr_player.name)
 		if not curr_player.alive:
 			players.remove_at(i)
 			curr_player.queue_free()
