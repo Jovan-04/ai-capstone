@@ -1,6 +1,11 @@
 extends Node2D
 
-enum Direction {UP, RIGHT, DOWN, LEFT}
+const Utils = preload("res://utils/utils.gd")
+const ActionUtils = preload("res://utils/action_utils.gd")
+const Action = ActionUtils.Action
+const Direction = ActionUtils.Direction
+const ActionType = ActionUtils.ActionType
+
 var tile_position: Vector2i = Vector2i(-4, -4)
 var TILE_SIZE: int = 16
 var game
@@ -11,8 +16,10 @@ var alive = true
 
 func _ready() -> void:
 	#This will error if game is not in very specific spot in tree *TEMPORARY*
+	# what very specific spot?
 	game = get_tree().get_root().get_child(0)
-	
+
+
 func make_action():
 	var player
 	var smallest = 100000000
@@ -75,30 +82,21 @@ func make_action():
 			3: dir = Direction.LEFT
 		self.move(dir)
 
+
 func move(direction: Direction) -> void:
-	match direction:
-		Direction.UP:
-			self.position += Vector2(0, -1) * TILE_SIZE
-		Direction.RIGHT:
-			self.position += Vector2(1, 0) * TILE_SIZE
-		Direction.LEFT:
-			self.position += Vector2(-1, 0) * TILE_SIZE
-		Direction.DOWN:
-			self.position += Vector2(0, 1) * TILE_SIZE
+	self.position += Vector2(Utils.DIRECTION_OFFSETS[direction] * TILE_SIZE)
 
 func attack() -> void:
-	for current_player in game.players:
-		var diff = current_player.get_current_tile() - get_current_tile()
-		if abs(diff.x) + abs(diff.y) == 1:
+	for current_player: Player in game.players:
+		if Utils.travel_distance_between(current_player.get_current_tile(), self.get_current_tile()) == 1:
 			current_player.get_hurt(power)
 			break
+
 
 func get_hurt(damage :int) -> void:
 	enemy_cur_health = max(enemy_cur_health - damage, 0)
 	if enemy_cur_health == 0:
 		alive = false
-
-
 
 func get_current_tile():
 	return Vector2i(position / TILE_SIZE - Vector2(.5,.5))

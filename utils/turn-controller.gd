@@ -76,9 +76,8 @@ func check_for_deaths() -> void:
 			
 	for i in range(len(enemies)-1, -1, -1):
 		var curr_enemy = enemies[i]
-		print(curr_enemy.name)
 		if not curr_enemy.alive:
-			players.remove_at(i)
+			enemies.remove_at(i)
 			curr_enemy.queue_free()
 
 
@@ -99,7 +98,7 @@ func update_labels() -> void:
 func spawn_enemy():
 	var rand_x = randi_range(0, 15)
 	var rand_y = randi_range(0, 11)
-	var rand_tile = Vector2(rand_x, rand_y)
+	var rand_tile = Vector2i(rand_x, rand_y)
 	
 	for enemy in enemies:
 		if enemy.get_current_tile() == rand_tile:
@@ -108,7 +107,7 @@ func spawn_enemy():
 		if player.get_current_tile() == rand_tile:
 			spawn_enemy()
 	var curr_enemy = ENEMY.instantiate()
-	curr_enemy.position = rand_tile * TILE_SIZE + Vector2(8, 8)
+	curr_enemy.position = rand_tile * TILE_SIZE + Vector2i(8, 8)
 	enemies.append(curr_enemy)
 	curr_enemy.name = "Enemy" + str(len(enemies))
 	add_child(curr_enemy)
