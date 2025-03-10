@@ -126,7 +126,7 @@ func is_move_valid(direction: Direction) -> bool:
 	return true
 
 func is_attack_valid(tile: Vector2i) -> bool:
-	return true
+	return (self.get_current_tile() - tile) in Utils.DIRECTION_OFFSETS.values()
 
 
 func attack(tile: Vector2i) -> void:
