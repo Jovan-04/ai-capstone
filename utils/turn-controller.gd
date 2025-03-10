@@ -51,7 +51,9 @@ func _ready() -> void:
 func print_grid() -> void:
 	var grid: Array = []
 	for i in range(12):
-		var array = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+		var array: Array[String] = []
+		array.resize(18)
+		array.fill(' ')
 		grid.push_back(array)
 	
 	for player in players:

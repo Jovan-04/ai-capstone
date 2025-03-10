@@ -123,6 +123,11 @@ func prompt_llm() -> Action:
 
 
 func is_move_valid(direction: Direction) -> bool:
+	var target_tile: Vector2i = self.get_current_tile() + Utils.DIRECTION_OFFSETS[direction]
+	# TODO: should probably make the game size (18 x 12) properties of `game`
+	if target_tile.x < 0 or target_tile.x > 17 or target_tile.y < 0 or target_tile.y > 11:
+		return false
+	
 	return true
 
 func is_attack_valid(tile: Vector2i) -> bool:
