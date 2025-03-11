@@ -12,11 +12,23 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_87ilp")
 
-[node name="Background" type="ColorRect" parent="."]
-layout_mode = 0
+[node name="Main" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Outline" type="ColorRect" parent="Main"]
 offset_right = 1152.0
 offset_bottom = 648.0
-color = Color(0.031396, 0.0473805, 0.10974, 1)
+color = Color(0.0670401, 0.0895915, 0.177593, 1)
+
+[node name="Background" type="ColorRect" parent="Main"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1142.0
+offset_bottom = 638.0
+color = Color(0.137003, 0.173561, 0.311197, 1)
 
 [node name="PlayButton" type="ColorRect" parent="."]
 layout_mode = 0
@@ -51,3 +63,104 @@ offset_bottom = 1371.0
 scale = Vector2(0.05, 0.05)
 theme = ExtResource("1_bsfds")
 text = "Quit"
+
+[node name="GameTitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 409.0
+offset_top = 67.0
+offset_right = 699.0
+offset_bottom = 148.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 50
+text = "Game Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Selection" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Outline" type="ColorRect" parent="Selection"]
+layout_mode = 0
+offset_left = 736.0
+offset_top = 88.0
+offset_right = 1069.0
+offset_bottom = 541.0
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Background" type="ColorRect" parent="Selection"]
+layout_mode = 0
+offset_left = 741.0
+offset_top = 93.0
+offset_right = 1064.0
+offset_bottom = 536.0
+color = Color(0.336608, 0.336608, 0.336608, 1)
+
+[node name="Assassin" type="Label" parent="Selection"]
+offset_left = 750.0
+offset_top = 130.0
+offset_right = 4852.0
+offset_bottom = 1492.0
+scale = Vector2(0.0439403, 0.0439403)
+theme_override_font_sizes/font_size = 1000
+text = "Assassin"
+
+[node name="Paladin" type="Label" parent="Selection"]
+offset_left = 750.0
+offset_top = 230.0
+offset_right = 4852.0
+offset_bottom = 1592.0
+scale = Vector2(0.0439403, 0.0439403)
+theme_override_font_sizes/font_size = 1000
+text = "Paladin"
+
+[node name="Wizard" type="Label" parent="Selection"]
+offset_left = 750.0
+offset_top = 330.0
+offset_right = 4852.0
+offset_bottom = 1692.0
+scale = Vector2(0.0439403, 0.0439403)
+theme_override_font_sizes/font_size = 1000
+text = "Wizard"
+
+[node name="AI" type="Label" parent="Selection"]
+offset_left = 986.0
+offset_top = 85.0
+offset_right = 5088.0
+offset_bottom = 1447.0
+scale = Vector2(0.0439403, 0.0439403)
+theme_override_font_sizes/font_size = 1000
+text = "AI"
+
+[node name="CheckBoxAssassin" type="CheckBox" parent="Selection"]
+layout_mode = 0
+offset_left = 967.0
+offset_top = 130.0
+offset_right = 991.0
+offset_bottom = 154.0
+scale = Vector2(3.43347, 3.43347)
+
+[node name="CheckBoxPaladin" type="CheckBox" parent="Selection"]
+layout_mode = 0
+offset_left = 967.0
+offset_top = 230.0
+offset_right = 991.0
+offset_bottom = 254.0
+scale = Vector2(3.43347, 3.43347)
+
+[node name="CheckBoxWizard" type="CheckBox" parent="Selection"]
+layout_mode = 0
+offset_left = 967.0
+offset_top = 330.0
+offset_right = 991.0
+offset_bottom = 354.0
+scale = Vector2(3.43347, 3.43347)
+
+[connection signal="toggled" from="Selection/CheckBoxAssassin" to="." method="_on_check_box_assassin_toggled"]
+[connection signal="toggled" from="Selection/CheckBoxPaladin" to="." method="_on_check_box_paladin_toggled"]
+[connection signal="toggled" from="Selection/CheckBoxWizard" to="." method="_on_check_box_wizard_toggled"]
