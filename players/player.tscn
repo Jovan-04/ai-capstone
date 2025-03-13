@@ -1,19 +1,19 @@
 [gd_scene load_steps=7 format=3 uid="uid://b7t0olpu30ns"]
 
 [ext_resource type="Script" path="res://players/player.gd" id="1_gvph2"]
-[ext_resource type="Texture2D" uid="uid://sducqwco0p74" path="res://assets/tilemap.png" id="1_m8s0d"]
+[ext_resource type="Texture2D" uid="uid://b4u2ujefruhrp" path="res://assets/error.png" id="2_tbwmh"]
 [ext_resource type="Texture2D" uid="uid://b08h4mqvwungd" path="res://assets/BackgroundHealthBar.png" id="3_1ywes"]
 [ext_resource type="Texture2D" uid="uid://o3ey4sgs155u" path="res://assets/FrontHealthBar.png" id="4_7fybv"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_07f05"]
-atlas = ExtResource("1_m8s0d")
-region = Rect2(64, 112, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_fungt"]
+atlas = ExtResource("2_tbwmh")
+region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ca82i"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_h0j4v"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_07f05")
+"texture": SubResource("AtlasTexture_fungt")
 }],
 "loop": true,
 "name": &"default",
@@ -24,7 +24,7 @@ animations = [{
 script = ExtResource("1_gvph2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_ca82i")
+sprite_frames = SubResource("SpriteFrames_h0j4v")
 autoplay = "default"
 
 [node name="HealthBar" type="Control" parent="."]
