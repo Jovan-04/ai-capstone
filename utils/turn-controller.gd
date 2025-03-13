@@ -12,7 +12,7 @@ var players: Array[Player] = []
 var enemies: Array = []
 
 # TODO: change this lol
-const ENEMY = preload("res://enemies/enemy.tscn")
+const ENEMY = preload("res://enemies/enemy_old.tscn")
 
 func _ready() -> void:
 	await get_tree().process_frame

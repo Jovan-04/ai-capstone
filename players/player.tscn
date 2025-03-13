@@ -1,45 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7t0olpu30ns"]
+[gd_scene load_steps=3 format=3 uid="uid://dw1exirkw2dsd"]
 
-[ext_resource type="Script" path="res://players/player.gd" id="1_gvph2"]
-[ext_resource type="Texture2D" uid="uid://b4u2ujefruhrp" path="res://assets/error.png" id="2_tbwmh"]
-[ext_resource type="Texture2D" uid="uid://b08h4mqvwungd" path="res://assets/BackgroundHealthBar.png" id="3_1ywes"]
-[ext_resource type="Texture2D" uid="uid://o3ey4sgs155u" path="res://assets/FrontHealthBar.png" id="4_7fybv"]
+[ext_resource type="PackedScene" uid="uid://b6f8wyv14ww2a" path="res://entity.tscn" id="1_3gxx0"]
+[ext_resource type="Script" path="res://players/player.gd" id="2_kyo4p"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fungt"]
-atlas = ExtResource("2_tbwmh")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_h0j4v"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fungt")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[node name="Player" type="Node2D"]
-script = ExtResource("1_gvph2")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_h0j4v")
-autoplay = "default"
-
-[node name="HealthBar" type="Control" parent="."]
-z_index = 1
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="HealthBar"]
-layout_mode = 0
-offset_left = -7.0
-offset_top = -11.0
-offset_right = 1529.0
-offset_bottom = 853.0
-scale = Vector2(0.009, 0.003)
-texture_under = ExtResource("3_1ywes")
-texture_progress = ExtResource("4_7fybv")
+[node name="Player" instance=ExtResource("1_3gxx0")]
+script = ExtResource("2_kyo4p")
