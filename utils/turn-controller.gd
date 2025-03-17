@@ -5,14 +5,19 @@ extends Node2D
 @onready var assassin: Player = $Assassin
 @onready var wave_number_label: Label = $TileMapLayer/WaveNumberLabel
 
+const CYCLOPS = preload("res://enemies/cyclops.tscn")
+const RAT = preload("res://enemies/rat.tscn")
+const SORCERER = preload("res://enemies/sorcerer.tscn")
+
 const TILE_SIZE: int = 16
 var wave_number: int = 1
 
 var players: Array[Player] = []
-var enemies: Array = []
+var enemies: Array[Enemy] = []
 
 # TODO: change this lol
 const ENEMY = preload("res://enemies/enemy_old.tscn")
+
 
 func _ready() -> void:
 	await get_tree().process_frame
@@ -20,31 +25,34 @@ func _ready() -> void:
 	
 	players.push_back(paladin)
 	players.push_back(wizard)
-	players.push_back(assassin)	
+	players.push_back(assassin)
 	
 	while true:
 		if enemies == []:
+			# this logic is bizarre - we're adding the wave number after spawning everything?
 			wave_number_label.text = "Wave\n" + str(wave_number)
 			for i in range(wave_number):
 				spawn_enemy()
 			wave_number += 1
 			
-		for player in players:
-			var time_left: float = 1.0 - player.extra_time_spent
-			while time_left > 0.0:
-				var time_spent = await player.make_action()
-				time_left -= time_spent
-				check_for_deaths()
-				update_labels()
-			player.extra_time_spent = time_left * -1 # we over-used time, so time_left is now negative; we need to make it positive so we can subtract it properly next turn
+		for player: Player in players:
+			await process_turn(player)
+			#var time_left: float = 1.0 - player.extra_time_spent
+			#while time_left > 0.0:
+				#var time_spent = await player.make_action()
+				#time_left -= time_spent
+				#check_for_deaths()
+				#update_labels()
+			#player.extra_time_spent = time_left * -1 # we over-used time, so time_left is now negative; we need to make it positive so we can subtract it properly next turn
 			
 			await get_tree().create_timer(0.25).timeout
 		
-		for enemy in enemies:
-			await enemy.make_action()
-			check_for_deaths()
-			update_labels()
-			await get_tree().create_timer(0.5).timeout
+		for enemy: Enemy in enemies:
+			await process_turn(enemy)
+			#enemy.make_action()
+			#check_for_deaths()
+			#update_labels()
+			#await get_tree().create_timer(0.5).timeout
 		
 		print_grid()
 
@@ -67,6 +75,15 @@ func print_grid() -> void:
 	print("----------------------------------------------------------")
 	for row in grid:
 		print(row)
+
+func process_turn(entity: Entity) -> void:
+	var time_left: float = 1.0 - entity.extra_time_spent
+	while time_left > 0.0:
+		var time_spent = await entity.make_action()
+		time_left -= time_spent
+		check_for_deaths()
+		update_labels()
+	entity.extra_time_spent = time_left * -1 # we over-used time, so time_left is now negative; we need to make it positive so we can subtract it properly next turn
 
 
 func check_for_deaths() -> void:
@@ -91,24 +108,36 @@ func update_labels() -> void:
 	
 	# TODO: make enemies have a .health_bar attribute too
 	# really, since we're going to be implementing multiple enemy types, we should have the same class/subclass structure
-	for enemy in enemies:
-		enemy.get_child(1).get_child(0).value = enemy.enemy_cur_health
-		enemy.get_child(1).get_child(0).max_value = enemy.enemy_max_health
+	for enemy: Enemy in enemies:
+		enemy.health_bar.max_value = enemy.max_health
+		enemy.health_bar.value = enemy.health
+		#enemy.get_child(1).get_child(0).value = enemy.enemy_cur_health
+		#enemy.get_child(1).get_child(0).max_value = enemy.enemy_max_health
 
 
 # TODO: rewrite this to support multiple enemy types and other stuff
+# TODO: also it's just a mess lol
 func spawn_enemy():
 	var rand_x = randi_range(0, 15)
 	var rand_y = randi_range(0, 11)
 	var rand_tile = Vector2i(rand_x, rand_y)
 	
-	for enemy in enemies:
-		if enemy.get_current_tile() == rand_tile:
-			spawn_enemy()
-	for player in players:
-		if player.get_current_tile() == rand_tile:
-			spawn_enemy()
-	var curr_enemy = ENEMY.instantiate()
+	#for enemy in enemies:
+		#if enemy.get_current_tile() == rand_tile:
+			#spawn_enemy()
+			#return
+	#
+	#for player in players:
+		#if player.get_current_tile() == rand_tile:
+			#spawn_enemy()
+			#return
+	
+	var curr_enemy: Enemy
+	match randi_range(0, 2):
+		1: curr_enemy = CYCLOPS.instantiate()
+		2: curr_enemy = RAT.instantiate()
+		3: curr_enemy = SORCERER.instantiate()
+	
 	curr_enemy.position = rand_tile * TILE_SIZE + Vector2i(8, 8)
 	enemies.append(curr_enemy)
 	curr_enemy.name = "Enemy" + str(len(enemies))

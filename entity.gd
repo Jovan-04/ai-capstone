@@ -41,6 +41,7 @@ func _ready() -> void:
 
 
 func make_action() -> float:
+	await get_tree().create_timer(0).timeout
 	push_error("please implement this function in your subclass!")
 	return 0.0
 

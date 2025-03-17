@@ -64,3 +64,9 @@ func get_best_action() -> Action:
 			return Action.new(ActionType.WAIT)
 	
 	return Action.new(ActionType.MOVE, {"direction": direction})
+
+
+func attack(tile: Vector2i):
+	for player: Player in self.game.players:
+		if player.get_current_tile() == tile:
+			player.get_hurt(self.attack_strength)

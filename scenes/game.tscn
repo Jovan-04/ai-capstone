@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=4 uid="uid://dxakurbal1e1t"]
+[gd_scene load_steps=8 format=4 uid="uid://dxakurbal1e1t"]
 
 [ext_resource type="Script" path="res://utils/turn-controller.gd" id="1_l1qfq"]
 [ext_resource type="Texture2D" uid="uid://sducqwco0p74" path="res://assets/tilemap.png" id="2_8s7qw"]
 [ext_resource type="PackedScene" uid="uid://dott8in2n6g7l" path="res://players/paladin.tscn" id="3_2j37i"]
 [ext_resource type="PackedScene" uid="uid://6nf11euaafqf" path="res://players/wizard.tscn" id="6_fqctb"]
-[ext_resource type="PackedScene" uid="uid://cjlpdgs4cxadp" path="res://enemies/cyclops.tscn" id="6_xveq0"]
 [ext_resource type="PackedScene" uid="uid://54okarba4i2m" path="res://players/assassin.tscn" id="7_5aerb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x7cnp"]
@@ -184,6 +183,3 @@ position = Vector2(-271, -182)
 
 [node name="Assassin" parent="." instance=ExtResource("7_5aerb")]
 position = Vector2(-271, -182)
-
-[node name="Cyclops" parent="." instance=ExtResource("6_xveq0")]
-position = Vector2(73, 72)
