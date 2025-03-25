@@ -1,26 +1,25 @@
-extends Node2D
+extends Entity
+class_name Enemy
 
-const Utils = preload("res://utils/utils.gd")
-const ActionUtils = preload("res://utils/action_utils.gd")
-const Action = ActionUtils.Action
-const Direction = ActionUtils.Direction
-const ActionType = ActionUtils.ActionType
+func make_action() -> float:
+	var selected_move: Action
+	
+	selected_move = self.get_best_action()
+	
+	match selected_move.type:
+		ActionType.WAIT:
+			return self.action_costs[ActionType.WAIT]
+		ActionType.MOVE:
+			move(selected_move.params["direction"])
+			return self.action_costs[ActionType.MOVE]
+		ActionType.ATTACK:
+			attack(selected_move.params["tile"])
+			return self.action_costs[ActionType.ATTACK]
+		_: # this default case feels like it shouldn't be needed... isn't the point of an enum that you can only have certain values?
+			return 1.0
 
-var tile_position: Vector2i = Vector2i(-4, -4)
-var TILE_SIZE: int = 16
-var game
-var enemy_max_health = 10
-var enemy_cur_health = enemy_max_health
-var power = 1
-var alive = true
-
-func _ready() -> void:
-	#This will error if game is not in very specific spot in tree *TEMPORARY*
-	# what very specific spot?
-	game = get_tree().get_root().get_child(0)
-
-
-func make_action():
+# still not sure how I feel about this AI, but it's what we have right now
+func get_best_action() -> Action:
 	var player: Player
 	var smallest: int = 100000000
 	
@@ -32,19 +31,17 @@ func make_action():
 	
 	if not player:
 		var random_index = randi_range(0,3)
-		var dir
+		var dir: Direction
 		match random_index:
 			0: dir = Direction.UP
 			1: dir = Direction.RIGHT
 			2: dir = Direction.DOWN
 			3: dir = Direction.LEFT
-		self.move(dir)
-		return
-	
+		return Action.new(ActionType.MOVE, {"direction": dir})
+		
 	var dist: int = Utils.travel_distance_between(player.get_current_tile(), self.get_current_tile())
 	if dist <= 1: # within attack range, attack
-		self.attack()
-		return
+		return Action.new(ActionType.ATTACK, {"tile": player.get_current_tile()})
 	
 	# too far away, we move
 	var direction: Direction
@@ -64,25 +61,12 @@ func make_action():
 	# if another enemy is in the way, just stand still
 	for enemy in game.enemies:
 		if enemy.get_current_tile() == self.get_current_tile() + Utils.DIRECTION_OFFSETS[direction]:
-			return
+			return Action.new(ActionType.WAIT)
 	
-	self.move(direction)
+	return Action.new(ActionType.MOVE, {"direction": direction})
 
 
-func move(direction: Direction) -> void:
-	self.position += Vector2(Utils.DIRECTION_OFFSETS[direction] * TILE_SIZE)
-
-func attack() -> void:
-	for current_player: Player in game.players:
-		if Utils.travel_distance_between(current_player.get_current_tile(), self.get_current_tile()) == 1:
-			current_player.get_hurt(power)
-			break
-
-
-func get_hurt(damage :int) -> void:
-	enemy_cur_health = max(enemy_cur_health - damage, 0)
-	if enemy_cur_health == 0:
-		alive = false
-
-func get_current_tile():
-	return Vector2i(position / TILE_SIZE - Vector2(.5,.5))
+func attack(tile: Vector2i):
+	for player: Player in self.game.players:
+		if player.get_current_tile() == tile:
+			player.get_hurt(self.attack_strength)

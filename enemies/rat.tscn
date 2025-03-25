@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://duptcmxquituv"]
+
+[ext_resource type="PackedScene" uid="uid://buj6phttxt1tj" path="res://enemies/enemy.tscn" id="1_uth0d"]
+[ext_resource type="Script" path="res://enemies/rat.gd" id="2_uiicy"]
+[ext_resource type="Texture2D" uid="uid://sducqwco0p74" path="res://assets/tilemap.png" id="3_oky7f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmq5c"]
+atlas = ExtResource("3_oky7f")
+region = Rect2(64, 160, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_815h2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmq5c")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Rat" instance=ExtResource("1_uth0d")]
+script = ExtResource("2_uiicy")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_815h2")
