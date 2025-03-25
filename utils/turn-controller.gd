@@ -102,17 +102,14 @@ func spawn_enemy():
 	var rand_x = randi_range(0, 15)
 	var rand_y = randi_range(0, 11)
 	var rand_tile = Vector2i(rand_x, rand_y)
-	print(rand_tile)
 	var curr_enemy: Enemy
 	match randi_range(0, 2):
 		0: curr_enemy = CYCLOPS.instantiate()
 		1: curr_enemy = RAT.instantiate()
 		2: curr_enemy = SORCERER.instantiate()
 	
-	print(curr_enemy.position)
 	enemies.append(curr_enemy)
 	curr_enemy.name = "Enemy" + str(len(enemies))
 	add_child(curr_enemy)
 	curr_enemy.position = rand_tile * TILE_SIZE + Vector2i(8, 8)
-	print(curr_enemy.position)
 	update_labels()
