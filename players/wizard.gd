@@ -8,7 +8,7 @@ func get_initial_position() -> Vector2i:
 
 #This code is not pretty but it does the job
 func is_attack_valid(tile: Vector2i) -> bool:
-	var line_of_sight = get_line_tiles(get_current_tile(), (Vector2(get_current_tile()) + game.mouseTilePos - Vector2(1,-1)))
+	var line_of_sight = get_line_tiles(get_current_tile(), (Vector2(get_current_tile()) + Vector2(tile) - Vector2(1,-1)))
 	print(line_of_sight)
 	for viewed_tile in line_of_sight:
 		var walkable = tile_map.get_cell_tile_data(Vector2i(viewed_tile) + Vector2i(-9,-6)).get_custom_data("Walkable")
@@ -51,7 +51,7 @@ func _draw() -> void:
 			end_draw_tile = viewed_tile + Vector2(-1,-1)
 			break
 	if should_draw_line:
-		draw_line(Vector2.ZERO, (Vector2(2,0) - Vector2(get_current_tile()) + end_draw_tile - Vector2(1,-1)) * 16, Color.RED)
+		draw_line(Vector2.ZERO, (Vector2(2,0) - Vector2(get_current_tile()) + end_draw_tile - Vector2(1,-1)) * 16, Color.BLUE, 3.0)
 		
 		
 	
@@ -138,20 +138,20 @@ func prompt_llm() -> Action:
 		There are two other players, a paladin, and an assassin, that attacks only up, left down, and right and move the same,but assassin
 		gets two moves each turn. Each player also has a special move. The Paladin can heal itself and teamates within 3 squares.
 		The wizard can build walls in a plus sign formation. The assassin can teleport to anywhere on the map. On your turn, you will be given
-		a board of displaying where each player is, A for Assassin, P for Paladin, W for Wizard, and finally E for enemies. It is important
-		to note that the special moves have a FIVE TURN COOLDOWN. The cooldown starts at FIVE to start the game, so you can't special immediatley. For your special as wizard, you
+		a board of displaying where each player is, A for Assassin, P for Paladin, W for Wizard, and E for enemies. Finally, an X means that there is a wall there, and
+		both players and enemies are unable to pass through it. 
+		It is important to note that the special moves have a FIVE TURN COOLDOWN. The cooldown starts at FIVE to start the game, so you can't special immediatley. For your special as wizard, you
 		must also return a specific tile for the center of the plus sign of walls.  
-		You must return a string with one of the following to make your move as the WIZARD. {ATTACK_UP,ATTACK_LEFT,ATTACK_DOWN,ATTACK_RIGHT,MOVE_UP,MOVE_LEFT,MOVE_DOWN,MOVE_RIGHT,SPECIAL}.
-		A tile position is also needed for SPECIAL or an ATTACK, in those cases, return 'YOUR_MOVE | (X, Y)]'"
+		You must return a string with one of the following to make your move as the WIZARD. {ATTACK,MOVE_UP,MOVE_LEFT,MOVE_DOWN,MOVE_RIGHT,SPECIAL}."
 	
 		
 		var current_grid = game.return_grid()
-		var current_turn_prompt = "The current grid is:" + str(current_grid) + ". Your special cooldown is currently at:" + str(special_turn_cooldown_cur) + ". Using this info, return your move:{ATTACK_UP,ATTACK_LEFT,ATTACK_DOWN,ATTACK_RIGHT,MOVE_UP,MOVE_LEFT,MOVE_DOWN,MOVE_RIGHT,SPECIAL}"
+		var current_turn_prompt = "The current grid is:" + str(current_grid) + ". Your special cooldown is currently at:" + str(special_turn_cooldown_cur) + ". Using this info, return your move:{ATTACK,MOVE_UP,MOVE_LEFT,MOVE_DOWN,MOVE_RIGHT,SPECIAL}. A tile position is also needed for SPECIAL or an ATTACK, in those cases, return 'YOUR_MOVE | (X, Y)]'"
 		var error_prompt = ""
 		var final_prompt = paladin_prompt_start_prompt + error_prompt + current_turn_prompt
 		
 		
-		var string_actions = ["ATTACK_UP","ATTACK_LEFT","ATTACK_DOWN","ATTACK_RIGHT","MOVE_UP","MOVE_LEFT","MOVE_DOWN","MOVE_RIGHT","SPECIAL","WAIT"]
+		var string_actions = ["ATTACK", "SPECIAL","WAIT", "MOVE_UP","MOVE_LEFT","MOVE_DOWN","MOVE_RIGHT"]
 		var response = await $"../LLMHandler".dialogue_request(final_prompt)
 		
 		print("Prompt:", final_prompt)
@@ -177,30 +177,12 @@ func prompt_llm() -> Action:
 		
 		
 		match attempted_action:
-			"ATTACK_UP":
+			"ATTACK":
 				if is_attack_valid(self.get_current_tile() + Utils.DIRECTION_OFFSETS[Direction.UP]):
 					error_prompt = ""
 					return Action.new(ActionType.ATTACK, {"tile": target_tile})
 				else:
-					error_prompt = "There is no enemy above, you can't attack that way!"
-			"ATTACK_LEFT":
-				if is_attack_valid(self.get_current_tile() + Utils.DIRECTION_OFFSETS[Direction.LEFT]):
-					error_prompt = ""
-					return Action.new(ActionType.ATTACK, {"tile": target_tile})
-				else:
-					error_prompt = "There is no enemy to your left, you can't attack that way!"
-			"ATTACK_DOWN":
-				if is_attack_valid(self.get_current_tile() + Utils.DIRECTION_OFFSETS[Direction.DOWN]):
-					error_prompt = ""
-					return Action.new(ActionType.ATTACK, {"tile": target_tile})
-				else:
-					error_prompt = "There is no enemy beloww, you can't attack that way!"
-			"ATTACK_RIGHT":
-				if is_attack_valid(self.get_current_tile() + Utils.DIRECTION_OFFSETS[Direction.RIGHT]):
-					error_prompt = ""
-					return Action.new(ActionType.ATTACK, {"tile": target_tile})
-				else:
-					error_prompt = "There is no enemy to your right, you can't attack that way!"
+					error_prompt = "There is no enemy at " + str(target_tile) + " or something is blocking your sight, you can't attack there!"
 			"MOVE_UP":
 				if is_move_valid(Direction.UP):
 					error_prompt = ""
@@ -230,11 +212,12 @@ func prompt_llm() -> Action:
 					error_prompt = ""
 					return Action.new(ActionType.SPECIAL, {"tile": target_tile})
 				else:
-					error_prompt = "You must wait til your special cooldown is 0 to perform your special action!"
+					error_prompt = "You may be placinf your special in an invalid location, or you must still wait til your special cooldown is 0 to perform your special action!"
 			"WAIT":
 				error_prompt = ""
 				return Action.new(ActionType.WAIT)	
 			_:
+				print("FAILED TO MATCH WITH ANYTHING")
 				pass
 				
 	return Action.new(ActionType.MOVE, {"direction": Direction.UP})

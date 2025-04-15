@@ -22,8 +22,8 @@ func prompt_llm() -> Action:
 		There are two other players, a wizard who can attack anything in it's line of sight, and an assassin, that attacks the same as you,
 		 but they get two moves each turn. Each player also has a special move. The Paladin can heal itself and teamates within 3 squares.
 		The wizard can build walls in a plus sign formation. The assassin can teleport to anywhere on the map. On your turn, you will be given
-		a board of displaying where each player is, A for Assassin, P for Paladin, W for Wizard, and finally E for enemies. It is important
-		to note that the special moves have a FIVE TURN COOLDOWN. The cooldown starts at three to start the game, so you can't special immediatley. 
+		a board of displaying where each player is, A for Assassin, P for Paladin, W for Wizard, and E for enemies. Finally, an X means that there is a wall there, and
+		both players and enemies are unable to pass through it. It is important to note that the special moves have a FIVE TURN COOLDOWN. The cooldown starts at FIVE to start the game, so you can't special immediatley. 
 		You must return a string with one of the following to make your move as the paladin. {ATTACK_UP,ATTACK_LEFT,ATTACK_DOWN,ATTACK_RIGHT,MOVE_UP,MOVE_LEFT,MOVE_DOWN,MOVE_RIGHT,SPECIAL}."
 		
 		var current_grid = game.return_grid()

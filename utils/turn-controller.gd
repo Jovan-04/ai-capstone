@@ -57,29 +57,7 @@ func _ready() -> void:
 		for enemy: Enemy in enemies:
 			await process_turn(enemy)
 			await get_tree().create_timer(0.5).timeout
-		
-		print_grid()
 
-func print_grid() -> void:
-	var grid: Array = []
-	for i in range(12):
-		var array: Array[String] = []
-		array.resize(18)
-		array.fill(' ')
-		grid.push_back(array)
-	
-	for player in players:
-		var pos = player.get_current_tile()
-		grid[pos.y][pos.x] = player.name.left(1)
-	
-	for enemy in enemies:
-		var pos = enemy.get_current_tile()
-		grid[pos.y][pos.x] = enemy.name.left(1)
-	
-	print("----------------------------------------------------------")
-	for row in grid:
-		print(row)
-		
 func return_grid() -> String:
 	var grid: Array = []
 	for i in range(12):
@@ -95,6 +73,13 @@ func return_grid() -> String:
 	for enemy in enemies:
 		var pos = enemy.get_current_tile()
 		grid[pos.y][pos.x] = enemy.name.left(1)
+	
+	for x in range(17):
+		for y in range(11):
+			var temp_tile = Vector2i(x, y) 
+			if not tile_map_layer.get_cell_tile_data(temp_tile + Vector2i(-9,-6)).get_custom_data("Walkable"):
+				grid[y][x] = "X"
+	
 	
 	var string_grid = ""
 	string_grid += "----------------------------------------------------------\n"

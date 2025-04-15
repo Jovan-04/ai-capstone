@@ -5,7 +5,7 @@ var url : String= "https://api.openai.com/v1/chat/completions"
 var temperature : float = 0.5
 var max_tokens : int = 64
 var headers = ["Content-Type: application/json", "Authorization: Bearer " + api_key]
-var model : String = "gpt-3.5-turbo"
+var model : String = "o3-mini"
 var messages = []
 var request : HTTPRequest
 var cache_message = "Didn't Work"

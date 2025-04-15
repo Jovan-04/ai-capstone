@@ -2,7 +2,7 @@ extends Entity
 class_name Player
 
 var played_by_real_player: bool
-var special_turn_cooldown_max = 0
+var special_turn_cooldown_max = 5
 var special_turn_cooldown_cur = special_turn_cooldown_max
 
 func _ready() -> void:
