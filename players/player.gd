@@ -2,11 +2,12 @@ extends Entity
 class_name Player
 
 var played_by_real_player: bool
+var special_turn_cooldown_max = 0
+var special_turn_cooldown_cur = special_turn_cooldown_max
 
 func _ready() -> void:
 	super._ready()
 	self.played_by_real_player = true
-
 
 func make_action() -> float:
 	animated_sprite.modulate = Color(0, 1.2, 0)
@@ -28,6 +29,10 @@ func make_action() -> float:
 		ActionType.ATTACK:
 			attack(selected_move.params["tile"])
 			return self.action_costs[ActionType.ATTACK]
+		ActionType.SPECIAL:
+			special(selected_move.params["tile"])
+			special_turn_cooldown_cur = special_turn_cooldown_max
+			return self.action_costs[ActionType.SPECIAL]
 		_: # this default case feels like it shouldn't be needed... isn't the point of an enum that you can only have certain values?
 			return 1.0
 
@@ -39,7 +44,7 @@ func get_player_input() -> Action:
 		"move_down": Direction.DOWN,
 		"move_left": Direction.LEFT,
 	}
-	
+
 	while true:
 		await get_tree().process_frame
 		
@@ -56,17 +61,26 @@ func get_player_input() -> Action:
 				continue
 			
 			return Action.new(ActionType.MOVE, {"direction": dir})
-
-		if Input.is_action_just_pressed("click"):
+			
+		
+		if Input.is_action_just_pressed("left_click"):
+		 	# not really sure why we need to add this...
 			var mouse_pos = get_global_mouse_position()
 			var tile_pos: Vector2i = tile_map.local_to_map(tile_map.to_local(mouse_pos))
-			tile_pos += Vector2i(9, 6) # not really sure why we need to add this...
-			
+			tile_pos += Vector2i(9, 6)
 			if not is_attack_valid(tile_pos): # attack out of range, etc.
 				continue
 			
 			return Action.new(ActionType.ATTACK, {"tile": tile_pos})
-		
+			
+		if Input.is_action_just_pressed("right_click"):
+			var mouse_pos = get_global_mouse_position()
+			var tile_pos: Vector2i = tile_map.local_to_map(tile_map.to_local(mouse_pos))
+			tile_pos += Vector2i(9, 6)
+			if not special_valid(tile_pos):
+				continue
+			return Action.new(ActionType.SPECIAL, {"tile": tile_pos})
+			
 		if Input.is_action_just_pressed("wait"):
 			return Action.new(ActionType.WAIT)
 	
@@ -81,3 +95,9 @@ func attack(tile: Vector2i) -> void:
 	for enemy in game.enemies:
 		if enemy.get_current_tile() == tile:
 			enemy.get_hurt(self.attack_strength)
+
+func special(tile: Vector2i) -> void:
+	push_error("please implement this function in your subclass!")
+	
+func special_valid(tile: Vector2i)-> bool:
+	return special_turn_cooldown_cur == 0

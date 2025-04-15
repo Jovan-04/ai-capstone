@@ -1,7 +1,7 @@
 extends Node
 
 enum Direction { UP, RIGHT, DOWN, LEFT }
-enum ActionType { WAIT, MOVE, ATTACK }
+enum ActionType { WAIT, MOVE, ATTACK, SPECIAL }
 
 class Action:
 	var type: ActionType

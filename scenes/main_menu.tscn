@@ -18,6 +18,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Outline" type="ColorRect" parent="Main"]
+layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.0670401, 0.0895915, 0.177593, 1)
@@ -102,6 +103,7 @@ offset_bottom = 536.0
 color = Color(0.336608, 0.336608, 0.336608, 1)
 
 [node name="Assassin" type="Label" parent="Selection"]
+layout_mode = 0
 offset_left = 750.0
 offset_top = 130.0
 offset_right = 4852.0
@@ -111,6 +113,7 @@ theme_override_font_sizes/font_size = 1000
 text = "Assassin"
 
 [node name="Paladin" type="Label" parent="Selection"]
+layout_mode = 0
 offset_left = 750.0
 offset_top = 230.0
 offset_right = 4852.0
@@ -120,6 +123,7 @@ theme_override_font_sizes/font_size = 1000
 text = "Paladin"
 
 [node name="Wizard" type="Label" parent="Selection"]
+layout_mode = 0
 offset_left = 750.0
 offset_top = 330.0
 offset_right = 4852.0
@@ -129,6 +133,7 @@ theme_override_font_sizes/font_size = 1000
 text = "Wizard"
 
 [node name="AI" type="Label" parent="Selection"]
+layout_mode = 0
 offset_left = 986.0
 offset_top = 85.0
 offset_right = 5088.0

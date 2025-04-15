@@ -31,12 +31,13 @@ func _ready() -> void:
 	self.attack_strength = 1.0
 	self.extra_time_spent = 0.0
 	self.alive = true
-	self.game = get_tree().get_root().get_child(0)
+	self.game = get_tree().get_root().get_child(1)
 	
 	self.action_costs = {
 		ActionType.MOVE: 1.0,
 		ActionType.WAIT: 1.0,
-		ActionType.ATTACK: 1.0
+		ActionType.ATTACK: 1.0,
+		ActionType.SPECIAL: 1.0
 	}
 
 
@@ -64,7 +65,21 @@ func is_attack_valid(tile: Vector2i) -> bool:
 func is_move_valid(direction: Direction) -> bool:
 	var target_tile: Vector2i = self.get_current_tile() + Utils.DIRECTION_OFFSETS[direction]
 	# TODO: should probably make the game size (18 x 12) properties of `game`
-	if target_tile.x < 0 or target_tile.x > 17 or target_tile.y < 0 or target_tile.y > 11:
+	
+	#Gets tiles custom data which denotes whether or not an entity can walk on it
+	var walkable = tile_map.get_cell_tile_data(target_tile + Vector2i(-9,-6)).get_custom_data("Walkable")
+	
+	#Stops players and enemies from occupying same tile
+	for player in game.players:
+		if target_tile == player.get_current_tile():
+			return false
+	for enemy in game.enemies:
+		if target_tile == enemy.get_current_tile():
+			return false
+		
+	
+	
+	if target_tile.x < 0 or target_tile.x > 17 or target_tile.y < 0 or target_tile.y > 11 or not walkable:
 		return false
 	
 	return true

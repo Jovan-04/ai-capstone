@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dyvuai7kxek8d"]
+
+[ext_resource type="Shader" path="res://materials/hoveredTile.gdshader" id="1_b5140"]
+
+[resource]
+shader = ExtResource("1_b5140")
+shader_parameter/globalMousePos = null
+shader_parameter/tileSize = Vector2(16, 16)
