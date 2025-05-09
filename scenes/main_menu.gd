@@ -13,11 +13,12 @@ var played_by_real_player_wizard = true
 var collision_tiles = []
 
 func generate_terrain():
-	while len(collision_tiles) < 5:
+	while len(collision_tiles) < 10:
 		var x = randi_range(0,17) - 9
 		var y = randi_range(0,11) - 6
 		collision_tiles.append(Vector2i(x,y))
-	var temp_tiles = [Vector2i(9,1),Vector2i(9,2),Vector2i(9,3),Vector2i(9,4),Vector2i(9,5),Vector2i(9,6),Vector2i(8,6),Vector2i(7,6),Vector2i(6,6),Vector2i(5,6),]
+		#[Vector2i(9,1),Vector2i(9,2),Vector2i(9,3),Vector2i(9,4),Vector2i(9,5),Vector2i(9,6),Vector2i(8,6),Vector2i(7,6),Vector2i(6,6),Vector2i(5,6),]
+	var temp_tiles = []
 	for tile in temp_tiles:
 		collision_tiles.append(tile - Vector2i(9,6))
 		

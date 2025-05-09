@@ -54,54 +54,16 @@ func is_attack_valid(tile: Vector2i) -> bool:
 	
 	
 func get_line_tiles(start_point: Vector2, end_point: Vector2) -> Array:
-	var tile_size := 16
+	var points = []
+	var n = 20
+	for i in range(n):
+		var t = i / float(n - 1)  # normalized position from 0.0 to 1.0
+		var point = start_point.lerp(end_point, t)
+		points.append(point)
+			
+	var rounded = []
+	for point in points:
+		if round(point) != start_point and round(point) not in rounded:
+			rounded.append(round(point))
 	
-	var x0 = int(start_point.x)
-	var y0 = int(start_point.y)
-	var x1 = int(end_point.x)
-	var y1 = int(end_point.y)
-	
-	var tiles: Array = []
-	
-	var dx = abs(x1 - x0)
-	var dy = abs(y1 - y0)
-	var sx
-	if x1 >= x0:
-		sx = 1
-	else:
-		sx = -1
-	var sy
-	if y1 >= y0:
-		sy = 1
-	else:
-		sy = -1
-	
-	var err = dx - dy
-	
-	while true:
-		var pos := Vector2(x0, y0)
-		if pos not in tiles:
-			tiles.append(pos)
-		
-		if x0 == x1 and y0 == y1:
-			break
-		
-		var e2 = 2 * err
-		
-		if e2 > -dy:
-			if e2 == -dy and (pos + Vector2(0, sy)) not in tiles:
-				tiles.append(pos + Vector2(0, sy))
-			err -= dy
-			x0 += sx
-		
-		if e2 < dx:
-			if e2 == dx and (pos + Vector2(sx, 0)) not in tiles:
-				tiles.append(pos + Vector2(sx, 0))
-			err += dx
-			y0 += sy
-	
-	#Remove the entity itself.
-	tiles.remove_at(0)
-	#Remove extra tile at end.
-	tiles.remove_at(-1)
-	return tiles
+	return rounded

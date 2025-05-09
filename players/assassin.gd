@@ -42,7 +42,9 @@ func prompt_llm() -> Action:
 		
 		
 		var string_actions = ["ATTACK_UP","ATTACK_LEFT","ATTACK_DOWN","ATTACK_RIGHT","MOVE_UP","MOVE_LEFT","MOVE_DOWN","MOVE_RIGHT","SPECIAL","WAIT"]
-		var response = await $"../LLMHandler".dialogue_request(final_prompt)
+		var response = "-1"
+		while response == "-1":
+			response = await $"../LLMHandler".dialogue_request(final_prompt)
 		
 		print("Prompt:", final_prompt)
 		print("Response:", response)

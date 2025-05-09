@@ -31,8 +31,8 @@ func _ready() -> void:
 	self.attack_strength = 1.0
 	self.extra_time_spent = 0.0
 	self.alive = true
-	self.game = get_tree().get_root().get_child(1)
-	
+	self.game = get_node("/root/Game")
+
 	self.action_costs = {
 		ActionType.MOVE: 1.0,
 		ActionType.WAIT: 1.0,

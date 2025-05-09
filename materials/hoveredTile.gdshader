@@ -12,7 +12,6 @@ void vertex() {
 void fragment() {
     // Get the tile position based on the size of each tile
     vec2 tilePos = floor(vertexPos[0] / tileSize);
-
     // Get the mouse position in tile coordinates
     vec2 mouseTilePos = floor(globalMousePos / tileSize) + vec2(-1,-1);
 

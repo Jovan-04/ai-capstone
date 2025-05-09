@@ -8,7 +8,7 @@ func get_initial_position() -> Vector2i:
 
 #This code is not pretty but it does the job
 func is_attack_valid(tile: Vector2i) -> bool:
-	var line_of_sight = get_line_tiles(get_current_tile(), (Vector2(get_current_tile()) + Vector2(tile) - Vector2(1,-1)))
+	var line_of_sight = get_line_tiles(get_current_tile(), (Vector2(Vector2(tile))))
 	print(line_of_sight)
 	for viewed_tile in line_of_sight:
 		var walkable = tile_map.get_cell_tile_data(Vector2i(viewed_tile) + Vector2i(-9,-6)).get_custom_data("Walkable")
@@ -30,30 +30,6 @@ func is_attack_valid(tile: Vector2i) -> bool:
 			return true
 	return false
 
-func _draw() -> void:
-	var end_draw_tile = game.mouseTilePos
-	var line_of_sight = get_line_tiles(get_current_tile(), (Vector2(get_current_tile()) + game.mouseTilePos - Vector2(1,-1)))
-	for viewed_tile in line_of_sight:
-		var walkable = tile_map.get_cell_tile_data(Vector2i(viewed_tile) + Vector2i(-9,-6)).get_custom_data("Walkable")
-		if walkable:
-			for player in game.players:
-				if Vector2(player.get_current_tile()) == Vector2(viewed_tile):
-					#print("Hit Player", viewed_tile)
-					end_draw_tile = viewed_tile + Vector2(-1,-1)
-					break
-			for enemy in game.enemies:
-				if Vector2(enemy.get_current_tile()) == Vector2(viewed_tile):
-					#print("Hit Enemy Early", viewed_tile)
-					end_draw_tile = viewed_tile + Vector2(-1,-1)
-					break
-		else:
-			#print("Hit Wall", viewed_tile)
-			end_draw_tile = viewed_tile + Vector2(-1,-1)
-			break
-	if should_draw_line:
-		draw_line(Vector2.ZERO, (Vector2(2,0) - Vector2(get_current_tile()) + end_draw_tile - Vector2(1,-1)) * 16, Color.BLUE, 3.0)
-		
-		
 	
 func special(tile: Vector2i) -> void:
 	var temp = []
@@ -80,57 +56,19 @@ func special_valid(tile: Vector2i)-> bool:
 	return special_turn_cooldown_cur == 0
 
 func get_line_tiles(start_point: Vector2, end_point: Vector2) -> Array:
-	var tile_size := 16
+	var points = []
+	var n = 20
+	for i in range(n):
+		var t = i / float(n - 1)  # normalized position from 0.0 to 1.0
+		var point = start_point.lerp(end_point, t)
+		points.append(point)
+			
+	var rounded = []
+	for point in points:
+		if round(point) != start_point and round(point) not in rounded:
+			rounded.append(round(point))
 	
-	var x0 = int(start_point.x)
-	var y0 = int(start_point.y)
-	var x1 = int(end_point.x)
-	var y1 = int(end_point.y)
-	
-	var tiles: Array = []
-	
-	var dx = abs(x1 - x0)
-	var dy = abs(y1 - y0)
-	var sx
-	if x1 >= x0:
-		sx = 1
-	else:
-		sx = -1
-	var sy
-	if y1 >= y0:
-		sy = 1
-	else:
-		sy = -1
-	
-	var err = dx - dy
-	
-	while true:
-		var pos := Vector2(x0, y0)
-		if pos not in tiles:
-			tiles.append(pos)
-		
-		if x0 == x1 and y0 == y1:
-			break
-		
-		var e2 = 2 * err
-		
-		if e2 > -dy:
-			if e2 == -dy and (pos + Vector2(0, sy)) not in tiles:
-				tiles.append(pos + Vector2(0, sy))
-			err -= dy
-			x0 += sx
-		
-		if e2 < dx:
-			if e2 == dx and (pos + Vector2(sx, 0)) not in tiles:
-				tiles.append(pos + Vector2(sx, 0))
-			err += dx
-			y0 += sy
-	
-	#Remove the entity itself.
-	tiles.remove_at(0)
-	#Remove extra tile at end.
-	tiles.remove_at(-1)
-	return tiles
+	return rounded
 	
 func prompt_llm() -> Action:
 	while true:
@@ -164,7 +102,8 @@ func prompt_llm() -> Action:
 			float(response.substr(response.rfind("(") + 1, response.rfind(",") - response.rfind("(") - 1)),
 			float(response.substr(response.rfind(",") + 1, response.rfind(")") - response.rfind(",") - 1))
 			)
-		
+		print(target_tile)
+		print(typeof(target_tile))
 		
 		var attempted_action = ""
 		for string_action in string_actions:
@@ -172,17 +111,13 @@ func prompt_llm() -> Action:
 				attempted_action = string_action
 				break
 		
-		
-			
-		
-		
 		match attempted_action:
 			"ATTACK":
-				if is_attack_valid(self.get_current_tile() + Utils.DIRECTION_OFFSETS[Direction.UP]):
+				if is_attack_valid(target_tile):
 					error_prompt = ""
 					return Action.new(ActionType.ATTACK, {"tile": target_tile})
 				else:
-					error_prompt = "There is no enemy at " + str(target_tile) + " or something is blocking your sight, you can't attack there!"
+					error_prompt = "There is no enemy at " + str(target_tile) + " or something is blocking your sight, you can't attack there! You gave me your move corretly but the tile you gave was not right if you were trying to attack an enemy. Either pick the right tile or do something else."
 			"MOVE_UP":
 				if is_move_valid(Direction.UP):
 					error_prompt = ""
@@ -208,7 +143,7 @@ func prompt_llm() -> Action:
 				else:
 					error_prompt = "Something is in the way to your right, you can't move that way!"
 			"SPECIAL":
-				if special_valid(Vector2(0,0)):
+				if special_valid(target_tile):
 					error_prompt = ""
 					return Action.new(ActionType.SPECIAL, {"tile": target_tile})
 				else:

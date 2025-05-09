@@ -22,6 +22,7 @@ func make_action() -> float:
 func get_best_action() -> Action:
 	var player: Player
 	var smallest: int = 100000000
+	
 	for current_player in game.players:
 		var diff = abs(current_player.position - self.position)
 		if diff.x + diff.y < smallest:

@@ -23,6 +23,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	update_labels()
 	
+	
 	#Changes the filemap to have collision
 	for tile in collision_tiles:
 		tile_map_layer.set_cell(Vector2i(tile[0],tile[1]), 0, Vector2i(4,3))
@@ -145,5 +146,4 @@ func spawn_enemy():
 #This is used to send the global mouse position to the shader, which highlights under the cursor
 func _process(delta: float) -> void:
 	mouseTilePos = floor(get_global_mouse_position() / 16) + Vector2(-1,-1);
-	wizard.queue_redraw()
 	HOVERED_TILE.set_shader_parameter("globalMousePos", get_global_mouse_position())
